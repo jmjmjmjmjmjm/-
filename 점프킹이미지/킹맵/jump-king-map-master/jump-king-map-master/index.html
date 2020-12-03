@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="UTF-8" />
+		<title>
+			Jump King Map
+		</title>
+		<meta name="description" content="A complete lazy-loaded map explorer for the game Jump King">
+		<meta
+		name="viewport"
+		content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+	  />
+	  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+	  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+	  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+	  <link rel="manifest" href="site.webmanifest">
+		<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+		<style>
+			/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body{
+	background-color: black;
+}
+			ul,
+			li {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			ul {
+				margin: auto;
+				max-width: 960px;
+				display: flex;
+				flex-direction: column-reverse;
+			}
+
+			a,
+			img {
+				display: block;
+			}
+
+			img {
+				border: 0;
+				width: 960px;
+				height: 540px;
+			}
+
+			img:not([src]) {
+				visibility: hidden;
+			}
+
+			#results1 {
+				height: 100vh;
+				overflow-y: scroll;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="results1" class="results">
+			<ul id="list">
+				<li>
+			
+					<img
+					data-src="1.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="2.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="3.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="4.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="5.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="6.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="7.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="8.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+							data-src="9.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="10.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="11.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="12.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="13.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="14.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="15.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="16.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+				<li>
+			
+					<img
+					data-src="17.png"
+							width="960"
+							height="540"
+					/>
+				</li>
+			</ul>
+		</div>
+		<script>
+			document.getElementById('list').scrollIntoView({ block: 'end' });
+
+			(function() {
+				function logElementEvent(eventName, element) {
+					console.log(
+						Date.now(),
+						eventName,
+						element.getAttribute("data-src")
+					);
+				}
+
+				var callback_enter = function(element) {
+					logElementEvent("🔑 ENTERED", element);
+				};
+				var callback_exit = function(element) {
+					logElementEvent("🚪 EXITED", element);
+				};
+				var callback_reveal = function(element) {
+					logElementEvent("👁️ REVEALED", element);
+				};
+				var callback_loaded = function(element) {
+					logElementEvent("👍 LOADED", element);
+				};
+				var callback_error = function(element) {
+					logElementEvent("💀 ERROR", element);
+					element.src =
+						"https://via.placeholder.com/440x560/?text=Error+Placeholder";
+				};
+				var callback_finish = function() {
+					logElementEvent("✔️ FINISHED", document.documentElement);
+				};
+
+				var ll = new LazyLoad({
+					container: document.getElementById("results1"),
+					// Assign the callbacks defined above
+					callback_enter: callback_enter,
+					callback_exit: callback_exit,
+					callback_reveal: callback_reveal,
+					callback_loaded: callback_loaded,
+					callback_error: callback_error,
+					callback_finish: callback_finish
+				});
+			})();
+		</script>
+	</body>
+</html>
