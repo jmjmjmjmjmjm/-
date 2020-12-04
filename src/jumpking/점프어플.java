@@ -10,7 +10,9 @@ public class 점프어플 extends JFrame {
 	
 	private static final String TAG = "점프앱태그";
 
-	private 맵 panel =new 맵();
+	private 투명도 panel =new 투명도();
+	private Stage stage = new Stage();
+	
 
 	public 점프어플() {
 		init(); // new 오브젝트를
@@ -21,10 +23,12 @@ public class 점프어플 extends JFrame {
 
 	public void setting() { // 맵,크기,등 세팅
 		setTitle("Jump King");
-		setSize(1800, 900);
+		setSize(1620, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setContentPane(panel);
+		setContentPane(panel); //투명도
+		setContentPane(stage); //실제 화면보여지는것
 		setLayout(null);
+		setExtendedState(JFrame.MAXIMIZED_BOTH); //전체화면 모드
 		setVisible(true);
 	}
 
