@@ -1,63 +1,76 @@
 package jumpking;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import jumpking.BubbleApp.BgJumpKing;
+public class BubbleApp extends JFrame implements Initable {
 
-public class 점프어플 extends JFrame {
-
-	private 점프어플 jumpApp = this;
-
-	private static final String TAG = "점프앱태그";
+	// 컨텍스트 저장
+	private BubbleApp bubbleApp = this; // 버블 컨텍스트 남기기
+	// 태그
+	private static final String TAG = "JumpKing : ";
 
 	private String bitMap; // 비트맵
-	private Thread thPixel; // 픽셀검사
 	public Player player; // 플레이어
+	private Thread thPixel; // 픽셀검사
 
-	private 투명도 panel = new 투명도();
-	private Stage stage = new Stage();
+	private BgJumpKing bgPanel; // 백그라운드
 
-	private ImageIcon icPlayerLS, icPlayerRS, icPlayerLR, icPlayerRR; // 좌,우 이동 이미지
-	private ImageIcon icJumpR1, icJumpR2, icJumpR3, icJumpR4; // 우 점프 이미지
-	private ImageIcon icJumpL1, icJumpL2, icJumpL3, icJumpL4; // 좌 점프 이미지
-
-	public 점프어플() {
-		init(); // new 오브젝트를
-		setting(); // JFrame 기본세팅
-		batch(); // 화면 구성
-		listener(); // 리스너(이벤트)
+	public BubbleApp() {
+		init(); // 생성 객체모음
+		setting(); // 셋팅 모음
+		batch(); // 배치 모음
+		listener(); // 리스너 모음
 		setVisible(true);
 	}
 
-	public void setting() { // 맵,크기,등 세팅
-		setTitle("Jump King");
-		setSize(1620, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setContentPane(panel); // 투명도
-		//setContentPane(stage); //실제 화면보여지는것
-		setLayout(null);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); // 전체화면 모드
+	class BgJumpKing extends JLabel {
+		private ImageIcon icon = new ImageIcon("D:/workspace/javawork/Game/images/color.png");
+		private Image img = icon.getImage(); // 이미지 객체
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+
+			// 이미지를 패널 크기로 조절하여 그린다
+			g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+		}
 	}
 
-	public void init() { // 오브젝트들
-		bitMap = "점프킹이미지/맵/투명도.jpg"; // 실제 연산되는 맵
+	@Override
+	public void init() {
+		bgPanel = new BgJumpKing();
+		bitMap = "D:/workspace/javawork/Game/images/color.png"; // 실제 연산되는 맵
 		player = new Player();
-		thPixel = new Thread(new PixelCheck(player, bitMap)); // 색깔 연산 스레드
-		thPixel.start();
-		
+
+//		thPixel = new Thread(new PixelCheck(player, bitMap)); // 색깔 연산 스레드
+//		thPixel.start();
+
 	}
 
-	public void batch() { // 화면구성
+	@Override
+	public void setting() {
+		setTitle("버블버블");
+		setSize(540, 493);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(null);
+		setContentPane(bgPanel); // 기본 컨텐트페인 = 라벨 백그라운드
+	}
+
+	@Override
+	public void batch() {
 		add(player);
-
 	}
 
-	public void listener() { // 리스너 (부딫히는거)
+	@Override
+	public void listener() {
 		addKeyListener(new KeyAdapter() {
 
 			@Override
@@ -95,10 +108,12 @@ public class 점프어플 extends JFrame {
 					player.setLeft(false);
 			}
 		});
+
 	}
 
 	public static void main(String[] args) {
-		new 점프어플();
+		new BubbleApp();
+
 	}
 
 }
