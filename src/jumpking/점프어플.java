@@ -37,7 +37,7 @@ public class 점프어플 extends JFrame {
 		setSize(1620, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setContentPane(panel); // 투명도
-		 setContentPane(stage); //실제 화면보여지는것
+		setContentPane(stage); //실제 화면보여지는것
 		setLayout(null);
 		setExtendedState(JFrame.MAXIMIZED_BOTH); // 전체화면 모드
 	}
@@ -63,6 +63,7 @@ public class 점프어플 extends JFrame {
 				}
 				if (e.getKeyCode()==KeyEvent.VK_UP) {
 					player.moveUp();
+					
 				}
 
 			}
@@ -77,6 +78,9 @@ public class 점프어플 extends JFrame {
 				}
 				if (e.getKeyCode() == KeyEvent.VK_UP) {
 					player.isUp = false;
+					player.isJump =true;
+					player.moveUp2();
+					
 				}
 
 			}

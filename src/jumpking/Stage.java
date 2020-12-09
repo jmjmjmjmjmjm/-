@@ -7,9 +7,6 @@ import javax.swing.ImageIcon;
 
 import javax.swing.JPanel;
 
-
-
-
 class 투명도 extends JPanel {
 	ImageIcon bg = new ImageIcon("점프킹이미지/맵/투명도.jpg");
 	private Image img = bg.getImage();
@@ -21,7 +18,7 @@ class 투명도 extends JPanel {
 }
 
 public class Stage extends JPanel {
-
+	Player player = new Player();
 	ImageIcon bgs = new ImageIcon("점프킹이미지/맵/map1.jpg");
 	private Image imgs = bgs.getImage();
 	int y = 3030;
@@ -33,19 +30,17 @@ public class Stage extends JPanel {
 	}
 
 //	public Stage() {
+//
 //		setFocusable(true);
 //		new Thread(new Runnable() {
-//
 //			@Override
 //			public void run() {
 //				while (true) {
-//					y--;
-//					yy--;
-//					repaint();
-//					try {
-//						Thread.sleep(10);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
+//					if (player.y == 0) {
+//						y = y - 1010;
+//						yy = y - 608;
+//
+//						repaint();
 //					}
 //				}
 //			}

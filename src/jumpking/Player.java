@@ -14,10 +14,11 @@ public class Player extends JLabel {
 	public boolean isLeft = false;
 	public boolean isUp = false;
 	public boolean isDown = false;
-
-	public int x = 500, y = 750; // 왼쪽오른쪽 좌표
+	public boolean isJump = false;
+	public int x = 500, y = 750; // 현재위치
 	public int energy = 0; // 기모으는것
 	public int ly = 0; // 왼쪽에서 점프준비인지 오른쪽에서점프준비인지
+	public String status = "오른쪽"; // 어느곳을 바라보고있는지
 
 	public Player() {
 		right_run = new ImageIcon("images/오른쪽달리기.png");
@@ -66,6 +67,7 @@ public class Player extends JLabel {
 
 				}
 			}).start();
+			status = "오른쪽";
 		}
 		ly = 0;
 	}
@@ -99,8 +101,31 @@ public class Player extends JLabel {
 					setIcon(left);
 				}
 			}).start();
+			status = "왼쪽";
 		}
 		ly = 1;
+	}
+
+	public void change(int height) { // 남은 점프범위를 받아서 여기서 실행
+		for (int y2 = 900; height < 300; height++) {
+
+			try {
+				y2--;
+				setLocation(x, y2);
+				Thread.sleep(1);
+				if (status == "오른쪽") { // 오른쪽 바라볼시 오른쪽으로점프
+					setIcon(right_jump);
+					y = y2;
+				} else { // 아니면 왼쪽으로점프
+					setIcon(left_jump);
+					y = y2;
+				}
+
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void moveUp() { // 키보드 위키
@@ -112,7 +137,6 @@ public class Player extends JLabel {
 					isUp = true;
 					while (isUp) {
 						try {
-							System.out.println("ddd");
 							Thread.sleep(400);
 							energy++;
 
@@ -140,7 +164,79 @@ public class Player extends JLabel {
 						}
 
 					}
-					energy = 0;
+
+				}
+			}).start();
+		}
+
+	}
+
+	public void moveUp2() {
+		if (isJump == true) { // 키보드 위키 입력후 손을땟을때
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					System.out.println("점프중");
+					if (energy > 3) {
+						for (int i = 0; i < 300; i++) {
+							try {
+								y--;
+								setLocation(x, y);
+								Thread.sleep(1);
+								if (status == "오른쪽") { // 오른쪽 바라볼시 오른쪽으로점프
+									setIcon(right_jump);
+								} else {
+									setIcon(left_jump);
+								}
+
+								if (y <= 2) { // 맵전환을 넘기는 함수
+									change(300 - i);
+									break;
+								}
+
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+						}
+						if (status == "오른쪽") {
+							setIcon(right);
+						} else {
+							setIcon(left);
+						}
+						energy = 0;
+					}
+					if (energy >= 1) {
+						for (int i = 0; i < 200; i++) {
+							try {
+								y--;
+								setLocation(x, y);
+								Thread.sleep(1);
+								if (status == "오른쪽") {
+									setIcon(right_jump);
+								} else {
+									setIcon(left);
+								}
+								if (y <=2) {
+									change(300 - i);
+									break;
+								}
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						if (status == "오른쪽") {
+							setIcon(right);
+						} else {
+							setIcon(left);
+						}
+						;
+						energy = 0;
+					}
+
 				}
 			}).start();
 		}
