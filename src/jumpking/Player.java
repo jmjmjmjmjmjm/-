@@ -5,7 +5,6 @@ import javax.swing.JLabel;
 
 public class Player extends JLabel {
 	private Player player = this;
-
 	private ImageIcon right_run, right_down, right, right_charging, right_jump, // 오른쪽
 			left_run, left_down, left, left_charging, left_jump, // 왼쪽
 			charging; // 기모으기
@@ -107,20 +106,20 @@ public class Player extends JLabel {
 	}
 
 	public void change(int height) { // 남은 점프범위를 받아서 여기서 실행
-		for (int y2 = 900; height < 300; height++) {
 
+		new Bg(); // 맵을 바꾸기위해 부름
+
+		for (int y2 = 900; height < 300; height++) {
 			try {
 				y2--;
 				setLocation(x, y2);
 				Thread.sleep(1);
 				if (status == "오른쪽") { // 오른쪽 바라볼시 오른쪽으로점프
 					setIcon(right_jump);
-					y = y2;
 				} else { // 아니면 왼쪽으로점프
 					setIcon(left_jump);
-					y = y2;
 				}
-
+				y = y2;
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -219,7 +218,7 @@ public class Player extends JLabel {
 								} else {
 									setIcon(left);
 								}
-								if (y <=2) {
+								if (y <= 2) {
 									change(300 - i);
 									break;
 								}
