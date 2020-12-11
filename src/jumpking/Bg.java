@@ -1,36 +1,44 @@
 package jumpking;
 
-import java.awt.Label;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.RepaintManager;
 
 public class Bg extends JPanel {
-	Vector<String> v;
-	JLabel bgla;
-	public ImageIcon img;
-
-	private int i = 1;
-
-	int y = 3030;
-	int yy = 1824;
-
+	static Vector<String> v;
+	static JLabel bgla;
+	static ImageIcon img;
+	
 	public Bg() { // 기본적 맵세팅
 		v = new Vector<>();
-		v.add("점프킹이미지/맵/map1.jpg");
-		v.add("점프킹이미지/맵/map2.jpg");
-		v.add("점프킹이미지/맵/map3.jpg");
-
-		img = new ImageIcon(v.get(i));
+		Dimension res = Toolkit.getDefaultToolkit().getScreenSize(); //전체 해상도
+		v.add("점프킹이미지/맵/1.png");
+		v.add("점프킹이미지/맵/2.png");
+		v.add("점프킹이미지/맵/3.png");
+		img = new ImageIcon(v.get(0));
+		이미지사이즈조정(res.width+500,res.height);
 		bgla = new JLabel(img);
-		add(bgla);
+		
 	}
 
-	public void bgchange() { // 맵을 변경하기 위한 함수
-		y = y - (y / 3);
-		yy = yy - (yy / 3);
+	static void 이미지변경(int num) { //맵변경
+		img = new ImageIcon(v.get(num));
+		bgla.setIcon(img);
+		
+		
+	}
+
+	public void 이미지사이즈조정(int width, int height) {
+		Image img2 = img.getImage();
+		Image changeImg = img2.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		img = new ImageIcon(changeImg);
 	}
 
 }

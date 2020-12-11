@@ -14,12 +14,14 @@ public class Player extends JLabel {
 	public boolean isUp = false;
 	public boolean isDown = false;
 	public boolean isJump = false;
-	public int x = 500, y = 750; // 현재위치
+	public int x = 500, y = 700; // 현재위치
+	public int j=0;
 	public int energy = 0; // 기모으는것
 	public int ly = 0; // 왼쪽에서 점프준비인지 오른쪽에서점프준비인지
 	public String status = "오른쪽"; // 어느곳을 바라보고있는지
 
 	public Player() {
+		Bg bg = new Bg();
 		right_run = new ImageIcon("images/오른쪽달리기.png");
 		right_down = new ImageIcon("images/오른쪽떨어지기.png");
 		right = new ImageIcon("images/오른쪽바라보기.png");
@@ -106,8 +108,8 @@ public class Player extends JLabel {
 	}
 
 	public void change(int height) { // 남은 점프범위를 받아서 여기서 실행
-
-		new Bg(); // 맵을 바꾸기위해 부름
+		j=2;
+		Bg.이미지변경(0);// 맵을 바꾸기위해 부름
 
 		for (int y2 = 900; height < 300; height++) {
 			try {

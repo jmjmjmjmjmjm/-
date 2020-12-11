@@ -31,7 +31,6 @@ public class MyBg extends JPanel{
 	
 	public void 이미지변경(int num) {
 		icBg = new ImageIcon(imgAddr.get(num));
-		이미지사이즈조정(100, 100);
 		laBg.setIcon(icBg);
 	}
 	
