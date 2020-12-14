@@ -3,25 +3,31 @@ package jumpking;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import test.MyBg;
+
 public class Player extends JLabel {
 	private Player player = this;
 	private ImageIcon right_run, right_down, right, right_charging, right_jump, // 오른쪽
 			left_run, left_down, left, left_charging, left_jump, // 왼쪽
-			charging; // 기모으기
+			charging, RJ, LJ; // 기모으기
 
 	public boolean isRight = false; // 상태(옆에누르고잇는지)
 	public boolean isLeft = false;
 	public boolean isUp = false;
 	public boolean isDown = false;
-	public boolean isJump = false;
+	public boolean isUp2 = false;
+	public boolean isRJ = false;
+	public boolean isLJ = false;
 	public int x = 500, y = 700; // 현재위치
-	public int j=0;
+	public int j = 0;
 	public int energy = 0; // 기모으는것
 	public int ly = 0; // 왼쪽에서 점프준비인지 오른쪽에서점프준비인지
 	public String status = "오른쪽"; // 어느곳을 바라보고있는지
+	Bg bg;
+	int i = 0; // 맵변경을위한 변수
 
-	public Player() {
-		Bg bg = new Bg();
+	public Player(Bg bg) {
+
 		right_run = new ImageIcon("images/오른쪽달리기.png");
 		right_down = new ImageIcon("images/오른쪽떨어지기.png");
 		right = new ImageIcon("images/오른쪽바라보기.png");
@@ -32,20 +38,25 @@ public class Player extends JLabel {
 		left = new ImageIcon("images/왼쪽바라보기.png");
 		left_charging = new ImageIcon("images/왼쪽에서 차징.png");
 		left_jump = new ImageIcon("images/왼쪽점프.png");
+
 		charging = new ImageIcon("images/차징풀.png");
 
 		setIcon(right);
 		setSize(100, 100);
 		setLocation(x, y);
+		this.bg = bg; // 배경을 바꾸기위해
+
 	}
 
 	public void moveRight() { // 키보드 오른쪽키
 
+		
+		//2번째놈의 isRight == true
 		if (isRight == false) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-
+					//1번째놈의 isRight == ture
 					isRight = true;
 					while (isRight) {
 						x = x + 2;
@@ -79,17 +90,16 @@ public class Player extends JLabel {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-
 					isLeft = true;
 					while (isLeft) {
 						x = x - 2;
+
 						setLocation(x, y); // 내부에 repaint()가 있음
 						try {
 							setIcon(left_run);
 							Thread.sleep(6);
 							setIcon(left);
 						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 
@@ -98,8 +108,9 @@ public class Player extends JLabel {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
+						
 					}
-					setIcon(left);
+
 				}
 			}).start();
 			status = "왼쪽";
@@ -108,20 +119,19 @@ public class Player extends JLabel {
 	}
 
 	public void change(int height) { // 남은 점프범위를 받아서 여기서 실행
-		j=2;
-		Bg.이미지변경(0);// 맵을 바꾸기위해 부름
-
-		for (int y2 = 900; height < 300; height++) {
+		if (i < 4)
+			i++;
+		Bg.이미지변경(i);// 맵을 바꾸기위해 부름
+		for (y = 900; height < 300; height++) {
 			try {
-				y2--;
-				setLocation(x, y2);
+				y--;
+				setLocation(x, y);
 				Thread.sleep(1);
 				if (status == "오른쪽") { // 오른쪽 바라볼시 오른쪽으로점프
 					setIcon(right_jump);
 				} else { // 아니면 왼쪽으로점프
 					setIcon(left_jump);
 				}
-				y = y2;
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -129,7 +139,7 @@ public class Player extends JLabel {
 		}
 	}
 
-	public void moveUp() { // 키보드 위키
+	public void isUp() { // 키보드 위키
 
 		if (isUp == false) {
 			new Thread(new Runnable() {
@@ -143,22 +153,22 @@ public class Player extends JLabel {
 
 							if (ly == 0) {
 								if (energy >= 1) {
-									System.out.println(energy);
 									setLocation(x, y + 10);
 									setIcon(right_charging);
+									status = "오른쪽";
 								}
 							} else {
 								if (energy >= 1) {
-									System.out.println(energy);
 									setLocation(x, y + 10);
 									setIcon(left_charging);
+									status = "왼쪽";
 								}
 							}
 							if (energy >= 3) {
 								setLocation(x, y + 15);
 								setIcon(charging);
-
 							}
+
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -168,30 +178,33 @@ public class Player extends JLabel {
 
 				}
 			}).start();
+
 		}
 
 	}
 
-	public void moveUp2() {
-		if (isJump == true) { // 키보드 위키 입력후 손을땟을때
+	public void isUp2() {
+		if (isUp2 == true) { // 키보드 위키 입력후 손을땟을때
 			new Thread(new Runnable() {
-
 				@Override
 				public void run() {
+
 					System.out.println("점프중");
 					if (energy > 3) {
+
 						for (int i = 0; i < 300; i++) {
+							isUp = false;
 							try {
-								y--;
-								setLocation(x, y);
-								Thread.sleep(1);
 								if (status == "오른쪽") { // 오른쪽 바라볼시 오른쪽으로점프
 									setIcon(right_jump);
 								} else {
 									setIcon(left_jump);
 								}
+								y--;
+								setLocation(x, y);
+								Thread.sleep(1);
 
-								if (y <= 2) { // 맵전환을 넘기는 함수
+								if (y < 0) { // 맵전환을 넘기는 함수
 									change(300 - i);
 									break;
 								}
@@ -204,42 +217,88 @@ public class Player extends JLabel {
 						}
 						if (status == "오른쪽") {
 							setIcon(right);
+							energy = 0;
 						} else {
 							setIcon(left);
+							energy = 0;
 						}
-						energy = 0;
+
 					}
-					if (energy >= 1) {
+					if (energy >= 0) {
+
 						for (int i = 0; i < 200; i++) {
 							try {
 								y--;
 								setLocation(x, y);
-								Thread.sleep(1);
 								if (status == "오른쪽") {
 									setIcon(right_jump);
 								} else {
 									setIcon(left);
 								}
-								if (y <= 2) {
+
+								Thread.sleep(1);
+
+								if (y < 0) {
 									change(300 - i);
 									break;
 								}
+								energy = -1;
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+
 						}
 						if (status == "오른쪽") {
 							setIcon(right);
 						} else {
 							setIcon(left);
 						}
-						;
-						energy = 0;
+
+					}
+					isUp2 = false;
+				}
+
+			}).start();
+		}
+
+	}
+
+	public void isRJ() {
+		if (isRJ = true) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					if (energy > 3) {
+						for (int i = 0; i < 150; i++) {
+							x++;
+							y = y - 2;
+							setLocation(x, y);
+						}
 					}
 
 				}
-			}).start();
+			});
+		}
+	}
+
+	public void isLJ() {
+		if (isLJ = true) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					if (energy > 3) {
+						for (int i = 0; i < 150; i++) {
+							x--;
+							y = y - 2;
+							setLocation(x, y);
+						}
+					}
+
+				}
+			});
 		}
 	}
 

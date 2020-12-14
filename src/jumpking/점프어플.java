@@ -37,6 +37,7 @@ public class 점프어플 extends JFrame {
 //		c.setLayout(null);
 		bg = new Bg();
 		setTitle("Jump King");
+		setSize(1000, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// setContentPane(panel); // 투명도
 		setExtendedState(JFrame.MAXIMIZED_BOTH); // 전체화면 모드
@@ -44,12 +45,12 @@ public class 점프어플 extends JFrame {
 	}
 
 	public void init() { // 오브젝트들
-		player = new Player();
-
+		player = new Player(bg);
 	}
 
 	public void batch() { // 화면구성
 		add(player);
+		
 	}
 
 	public void listener() { // 리스너
@@ -57,14 +58,22 @@ public class 점프어플 extends JFrame {
 
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+//					player.isRight = true;
 					player.moveRight();
-				}
-				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					player.moveLeft();
-				}
-				if (e.getKeyCode() == KeyEvent.VK_UP) {
-					player.moveUp();
+					player.isLeft = false;
+					player.isUp = false;
+					
+				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
+					player.moveLeft();
+					player.isRight = false;
+					player.isUp = false;
+					
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					player.isUp();
+					player.isUp = true;
+					player.isRight = false;
+					player.isLeft = false;
 				}
 
 			}
@@ -73,14 +82,25 @@ public class 점프어플 extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					player.isRight = false;
-				}
-				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					player.isLeft = false;
-				}
-				if (e.getKeyCode() == KeyEvent.VK_UP) {
 					player.isUp = false;
-					player.isJump = true;
-					player.moveUp2();
+				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					player.isLeft = false;
+					player.isRight = false;
+					player.isUp = false;
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					player.isUp = false;
+					player.isRight = false;
+					player.isLeft = false;
+					player.isUp2 = true;
+					player.isUp2();
+					player.isUp2=false;
+				}
+				if (e.getKeyCode() == KeyEvent.VK_RIGHT && e.getKeyCode() == KeyEvent.VK_UP) {
+					// 대각점프
+
+				}
+				if (e.getKeyCode() == KeyEvent.VK_LEFT && e.getKeyCode() == KeyEvent.VK_UP) {
 
 				}
 
